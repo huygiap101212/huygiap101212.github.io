@@ -1,0 +1,1694 @@
+<!DOCTYPE html>
+<html lang="vi" class="js csstransforms3d">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="Hugo 0.134.2">
+    <meta name="description" content="">
+<meta name="author" content="journeyoftheaverageguy@gmail.com">
+
+    <link rel="icon" href="/images/favicon.png" type="image/png">
+
+    <title>Triển khai chức năng cơ sở :: Serverless Optimization (Performance and Cost)</title>
+
+    
+    <link href="/css/nucleus.css?1726970090" rel="stylesheet">
+    <link href="/css/fontawesome-all.min.css?1726970090" rel="stylesheet">
+    <link href="/css/hybrid.css?1726970090" rel="stylesheet">
+    <link href="/css/featherlight.min.css?1726970090" rel="stylesheet">
+    <link href="/css/perfect-scrollbar.min.css?1726970090" rel="stylesheet">
+    <link href="/css/auto-complete.css?1726970090" rel="stylesheet">
+    <link href="/css/atom-one-dark-reasonable.css?1726970090" rel="stylesheet">
+    <link href="/css/theme.css?1726970090" rel="stylesheet">
+    <link href="/css/hugo-theme.css?1726970090" rel="stylesheet">
+    
+    <link href="/css/theme-workshop.css?1726970090" rel="stylesheet">
+    
+    
+
+    <script src="/js/jquery-3.3.1.min.js?1726970090"></script>
+
+    <style>
+      :root #header + #content > #left > #rlblock_left{
+          display:none !important;
+      }
+      
+    </style>
+    
+  </head>
+  <body class="" data-url="/vi/3-graviton2/3.2-deploythebasefunction/">
+    <nav id="sidebar" class="showVisitedLinks">
+
+
+
+  <div id="header-wrapper">
+    <div id="header">
+      <a id="logo" href="/">
+
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 30" width="30%"><defs><style>.cls-1{fill:#fff;}.cls-2{fill:#f90;fill-rule:evenodd;}</style></defs><title>AWS-Logo_White-Color</title><path class="cls-1" d="M14.09,10.85a4.7,4.7,0,0,0,.19,1.48,7.73,7.73,0,0,0,.54,1.19.77.77,0,0,1,.12.38.64.64,0,0,1-.32.49l-1,.7a.83.83,0,0,1-.44.15.69.69,0,0,1-.49-.23,3.8,3.8,0,0,1-.6-.77q-.25-.42-.51-1a6.14,6.14,0,0,1-4.89,2.3,4.54,4.54,0,0,1-3.32-1.19,4.27,4.27,0,0,1-1.22-3.2A4.28,4.28,0,0,1,3.61,7.75,6.06,6.06,0,0,1,7.69,6.46a12.47,12.47,0,0,1,1.76.13q.92.13,1.91.36V5.73a3.65,3.65,0,0,0-.79-2.66A3.81,3.81,0,0,0,7.86,2.3a7.71,7.71,0,0,0-1.79.22,12.78,12.78,0,0,0-1.79.57,4.55,4.55,0,0,1-.58.22l-.26,0q-.35,0-.35-.52V2a1.09,1.09,0,0,1,.12-.58,1.2,1.2,0,0,1,.47-.35A10.88,10.88,0,0,1,5.77.32,10.19,10.19,0,0,1,8.36,0a6,6,0,0,1,4.35,1.35,5.49,5.49,0,0,1,1.38,4.09ZM7.34,13.38a5.36,5.36,0,0,0,1.72-.31A3.63,3.63,0,0,0,10.63,12,2.62,2.62,0,0,0,11.19,11a5.63,5.63,0,0,0,.16-1.44v-.7a14.35,14.35,0,0,0-1.53-.28,12.37,12.37,0,0,0-1.56-.1,3.84,3.84,0,0,0-2.47.67A2.34,2.34,0,0,0,5,11a2.35,2.35,0,0,0,.61,1.76A2.4,2.4,0,0,0,7.34,13.38Zm13.35,1.8a1,1,0,0,1-.64-.16,1.3,1.3,0,0,1-.35-.65L15.81,1.51a3,3,0,0,1-.15-.67.36.36,0,0,1,.41-.41H17.7a1,1,0,0,1,.65.16,1.4,1.4,0,0,1,.33.65l2.79,11,2.59-11A1.17,1.17,0,0,1,24.39.6a1.1,1.1,0,0,1,.67-.16H26.4a1.1,1.1,0,0,1,.67.16,1.17,1.17,0,0,1,.32.65L30,12.39,32.88,1.25A1.39,1.39,0,0,1,33.22.6a1,1,0,0,1,.65-.16h1.54a.36.36,0,0,1,.41.41,1.36,1.36,0,0,1,0,.26,3.64,3.64,0,0,1-.12.41l-4,12.86a1.3,1.3,0,0,1-.35.65,1,1,0,0,1-.64.16H29.25a1,1,0,0,1-.67-.17,1.26,1.26,0,0,1-.32-.67L25.67,3.64,23.11,14.34a1.26,1.26,0,0,1-.32.67,1,1,0,0,1-.67.17Zm21.36.44a11.28,11.28,0,0,1-2.56-.29,7.44,7.44,0,0,1-1.92-.67,1,1,0,0,1-.61-.93v-.84q0-.52.38-.52a.9.9,0,0,1,.31.06l.42.17a8.77,8.77,0,0,0,1.83.58,9.78,9.78,0,0,0,2,.2,4.48,4.48,0,0,0,2.43-.55,1.76,1.76,0,0,0,.86-1.57,1.61,1.61,0,0,0-.45-1.16A4.29,4.29,0,0,0,43,9.22l-2.41-.76A5.15,5.15,0,0,1,38,6.78a3.94,3.94,0,0,1-.83-2.41,3.7,3.7,0,0,1,.45-1.85,4.47,4.47,0,0,1,1.19-1.37A5.27,5.27,0,0,1,40.51.29,7.4,7.4,0,0,1,42.6,0a8.87,8.87,0,0,1,1.12.07q.57.07,1.08.19t.95.26a4.27,4.27,0,0,1,.7.29,1.59,1.59,0,0,1,.49.41.94.94,0,0,1,.15.55v.79q0,.52-.38.52a1.76,1.76,0,0,1-.64-.2,7.74,7.74,0,0,0-3.2-.64,4.37,4.37,0,0,0-2.21.47,1.6,1.6,0,0,0-.79,1.48,1.58,1.58,0,0,0,.49,1.18,4.94,4.94,0,0,0,1.83.92L44.55,7a5.08,5.08,0,0,1,2.57,1.6A3.76,3.76,0,0,1,47.9,11a4.21,4.21,0,0,1-.44,1.93,4.4,4.4,0,0,1-1.21,1.47,5.43,5.43,0,0,1-1.85.93A8.25,8.25,0,0,1,42.05,15.62Z"></path><path class="cls-2" d="M45.19,23.81C39.72,27.85,31.78,30,25,30A36.64,36.64,0,0,1,.22,20.57c-.51-.46-.06-1.09.56-.74A49.78,49.78,0,0,0,25.53,26.4,49.23,49.23,0,0,0,44.4,22.53C45.32,22.14,46.1,23.14,45.19,23.81Z"></path><path class="cls-2" d="M47.47,21.21c-.7-.9-4.63-.42-6.39-.21-.53.06-.62-.4-.14-.74,3.13-2.2,8.27-1.57,8.86-.83s-.16,5.89-3.09,8.35c-.45.38-.88.18-.68-.32C46.69,25.8,48.17,22.11,47.47,21.21Z"></path></svg>
+
+</a>
+
+    </div>
+    
+        <div class="searchbox">
+    <label for="search-by"><i class="fas fa-search"></i></label>
+    <input data-search-input id="search-by" type="search" placeholder="Search...">
+    <span data-search-clear=""><i class="fas fa-times"></i></span>
+</div>
+
+<script type="text/javascript" src="/js/lunr.min.js?1726970090"></script>
+<script type="text/javascript" src="/js/auto-complete.js?1726970090"></script>
+<script type="text/javascript">
+    
+        var baseurl = "http:\/\/huygiap101212.github.io\/\/vi";
+    
+</script>
+<script type="text/javascript" src="/js/search.js?1726970090"></script>
+
+    
+  </div>
+
+    <div class="highlightable">
+    <ul class="topics">
+
+        
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/vi/1-powertuning/" title="Điều chỉnh công suất" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/vi/1-powertuning/">
+           <b> 1. </b> Điều chỉnh công suất
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+            
+          
+          
+          
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/vi/1-powertuning/1.1-deploythelambdapowertuningtool/" title="Triển khai Công cụ điều chỉnh Lambda Power" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/vi/1-powertuning/1.1-deploythelambdapowertuningtool/">
+           <b> 1.1. </b> Triển khai Công cụ điều chỉnh Lambda Power
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/vi/1-powertuning/1.2-deploytestlambafunction/" title="Triển khai hàm Lambda thử nghiệm" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/vi/1-powertuning/1.2-deploytestlambafunction/">
+           <b> 1.2. </b> Triển khai hàm Lambda thử nghiệm
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/vi/1-powertuning/1.3-analysis/" title="Phân tích" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/vi/1-powertuning/1.3-analysis/">
+           <b> 1.3. </b> Phân tích
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/vi/1-powertuning/1.4-cleanup/" title="Dọn dẹp tài nguyên" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/vi/1-powertuning/1.4-cleanup/">
+           <b> 1.4. </b> Dọn dẹp tài nguyên
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/vi/2-logtuning/" title="Điều chỉnh Nhật ký" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/vi/2-logtuning/">
+           <b> 2. </b> Điều chỉnh Nhật ký
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+            
+          
+          
+          
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/vi/2-logtuning/2.1-deploysamplefunction/" title="Triển khai chức năng mẫu" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/vi/2-logtuning/2.1-deploysamplefunction/">
+           <b> 2.1. </b> Triển khai chức năng mẫu
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/vi/2-logtuning/2.2-modifyloggingbehavior/" title="Sửa đổi Hành Vi Ghi Nhật Ký" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/vi/2-logtuning/2.2-modifyloggingbehavior/">
+           <b> 2.2. </b> Sửa đổi Hành Vi Ghi Nhật Ký
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/vi/2-logtuning/2.3-modifyloggroupretention/" title="Sửa đổi việc lưu giữ nhóm nhật ký" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/vi/2-logtuning/2.3-modifyloggroupretention/">
+           <b> 2.3. </b> Sửa đổi việc lưu giữ nhóm nhật ký
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/vi/2-logtuning/2.4-cleanup/" title="Dọn dẹp tài nguyên" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/vi/2-logtuning/2.4-cleanup/">
+           <b> 2.4. </b> Dọn dẹp tài nguyên
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/vi/3-graviton2/" title="Graviton2" class="dd-item 
+        parent
+        
+        
+        ">
+      <a href="/vi/3-graviton2/">
+           <b> 3. </b> Graviton2
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+            
+          
+          
+          
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/vi/3-graviton2/3.1-deploythelambdapowertuningtool/" title="Triển khai Công cụ điều chỉnh Lambda Power" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/vi/3-graviton2/3.1-deploythelambdapowertuningtool/">
+           <b> 3.1. </b> Triển khai Công cụ điều chỉnh Lambda Power
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/vi/3-graviton2/3.2-deploythebasefunction/" title="Triển khai chức năng cơ sở" class="dd-item 
+        
+        active
+        
+        ">
+      <a href="/vi/3-graviton2/3.2-deploythebasefunction/">
+           <b> 3.2. </b> Triển khai chức năng cơ sở
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/vi/3-graviton2/3.3-deploythegraviton2function/" title="Triển khai Hàm Graviton2" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/vi/3-graviton2/3.3-deploythegraviton2function/">
+           <b> 3.3. </b> Triển khai Hàm Graviton2
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/vi/3-graviton2/3.4-cleanup/" title="Dọn dẹp tài nguyên" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/vi/3-graviton2/3.4-cleanup/">
+           <b> 3.4. </b> Dọn dẹp tài nguyên
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/vi/4-eventfiltering/" title="Lọc sự kiện" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/vi/4-eventfiltering/">
+           <b> 4. </b> Lọc sự kiện
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+            
+          
+          
+          
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/vi/4-eventfiltering/4.2-withouteventfiltering/" title="Không có lọc sự kiện" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/vi/4-eventfiltering/4.2-withouteventfiltering/">
+           <b> 4.2. </b> Không có lọc sự kiện
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/vi/4-eventfiltering/4.1-deploy/" title="Triển khai" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/vi/4-eventfiltering/4.1-deploy/">
+           <b> 4.1. </b> Triển khai
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/vi/4-eventfiltering/4.3-usingeventfiltering/" title="Sử dụng Lọc Sự kiện" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/vi/4-eventfiltering/4.3-usingeventfiltering/">
+           <b> 4.3. </b> Sử dụng Lọc Sự kiện
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/vi/4-eventfiltering/4.4-cleanup/" title="Dọn dẹp tài nguyên" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/vi/4-eventfiltering/4.4-cleanup/">
+           <b> 4.4. </b> Dọn dẹp tài nguyên
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/vi/5-provisionedconcurrency/" title="Đồng thời được cung cấp" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/vi/5-provisionedconcurrency/">
+           <b> 5. </b> Đồng thời được cung cấp
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+            
+          
+          
+          
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/vi/5-provisionedconcurrency/5.1-coststructure/" title="Cấu trúc chi phí" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/vi/5-provisionedconcurrency/5.1-coststructure/">
+           <b> 5.1. </b> Cấu trúc chi phí
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/vi/5-provisionedconcurrency/5.2-costsavingopportunities/" title="Cơ hội tiết kiệm chi phí" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/vi/5-provisionedconcurrency/5.2-costsavingopportunities/">
+           <b> 5.2. </b> Cơ hội tiết kiệm chi phí
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/vi/5-provisionedconcurrency/5.3-staticprovisionedconcurrency/" title="Đồng thời được cung cấp tĩnh" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/vi/5-provisionedconcurrency/5.3-staticprovisionedconcurrency/">
+           <b> 5.3. </b> Đồng thời được cung cấp tĩnh
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/vi/5-provisionedconcurrency/5.4-dynamicprovisionedconcurrency/" title="Đồng thời được cung cấp động" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/vi/5-provisionedconcurrency/5.4-dynamicprovisionedconcurrency/">
+           <b> 5.4. </b> Đồng thời được cung cấp động
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/vi/5-provisionedconcurrency/5.5-conclusionandcleanup/" title="Kết luận và Dọn dẹp tài nguyên" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/vi/5-provisionedconcurrency/5.5-conclusionandcleanup/">
+           <b> 5.5. </b> Kết luận và Dọn dẹp tài nguyên
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+         
+    </ul>
+
+    
+    
+      <section id="shortcuts">
+        <h3>More</h3>
+        <ul>
+          
+              <li> 
+                  <a class="padding" href="http://awsstudygroup.com/"><i class='fab fa-aws'></i> AWS Study Group - Blog</a>
+              </li>
+          
+              <li> 
+                  <a class="padding" href="https://www.facebook.com/groups/awsstudygroupfcj/"><i class='fab fa-facebook'></i> AWS Study Group - Nhóm FB</a>
+              </li>
+          
+        </ul>
+      </section>
+    
+
+    
+    <section id="prefooter">
+      <hr/>
+      <ul>
+      
+        <li>
+          <a class="padding">
+            <i class="fas fa-language fa-fw"></i>
+          <div class="select-style">
+            <select id="select-language" onchange="location = this.value;">
+          
+          
+          
+              
+              
+                  
+                    
+                    
+                      <option id="en" value="http://huygiap101212.github.io/3-graviton2/3.2-deploythebasefunction/">English</option>
+                    
+                  
+              
+                  
+              
+          
+              
+              
+                  
+              
+                  
+                    
+                    
+                      <option id="vi" value="http://huygiap101212.github.io/vi/3-graviton2/3.2-deploythebasefunction/" selected>Tiếng Việt</option>
+                    
+                  
+              
+          
+        </select>
+        <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+          width="255px" height="255px" viewBox="0 0 255 255" style="enable-background:new 0 0 255 255;" xml:space="preserve">
+          <g>
+            <g id="arrow-drop-down">
+              <polygon points="0,63.75 127.5,191.25 255,63.75 		" />
+            </g>
+          </g>
+        </svg>
+        </div>
+        </a>
+        </li>
+      
+      
+      
+        <li><a class="padding" href="#" data-clear-history-toggle=""><i class="fas fa-history fa-fw"></i> Clear History</a></li>
+      
+      </ul>
+    </section>
+    
+    <section id="footer">
+      <left>
+    
+     <b> Workshop</b> <br>
+    <img src="https://hitwebcounter.com/counter/counter.php?page=7920860&style=0038&nbdigits=9&type=page&initCount=0" title="Migrate" Alt="web counter"   border="0" /></a>  <br>
+     <b> <a href="https://cloudjourney.awsstudygroup.com/">Cloud Journey</a></b> <br>
+    <img src="https://hitwebcounter.com/counter/counter.php?page=7830807&style=0038&nbdigits=9&type=page&initCount=0" title="Total CLoud Journey" Alt="web counter"   border="0"   />
+     
+</left>
+<left>
+    <br>
+    <br>
+        <b> Last Updated </b> <br>
+        <i><font color=orange>20-09-2024</font></i>
+    </left>
+    <left>
+        <br>
+        <br>
+            <b> Team </b> <br>
+           
+            <b>Đào Lê Huy Giáp - 21133028</b>
+                
+               
+        </i>
+        </left>
+
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+
+    </section>
+  </div>
+</nav>
+
+
+
+
+        <section id="body">
+        <div id="overlay"></div>
+        <div class="padding highlightable">
+              
+              <div>
+                <div id="top-bar">
+                
+                
+                <div id="breadcrumbs" itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
+                    <span id="sidebar-toggle-span">
+                        <a href="#" id="sidebar-toggle" data-sidebar-toggle="">
+                          <i class="fas fa-bars"></i>
+                        </a>
+                    </span>
+                  
+                  <span id="toc-menu"><i class="fas fa-list-alt"></i></span>
+                  
+                  <span class="links">
+                 
+                 
+                    
+          
+          
+            
+            
+          
+          
+            
+            
+          
+          
+            <a href='/vi/'>Tối ưu hóa không máy chủ</a> > <a href='/vi/3-graviton2/'>Graviton2</a> > Triển khai chức năng cơ sở
+          
+        
+          
+        
+          
+        
+                 
+                  </span>
+                </div>
+                
+                    <div class="progress">
+    <div class="wrapper">
+<nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </div>
+</div>
+
+                
+              </div>
+            </div>
+            
+        <div id="head-tags">
+        
+        </div>
+        
+        <div id="body-inner">
+          
+            <h1>
+              
+              Triển khai chức năng cơ sở
+            </h1>
+          
+
+        
+
+
+
+	<h4 id="triển-khai-chức-năng-cơ-sở">Triển khai chức năng cơ sở</h4>
+<p>Trong phần này của module, bạn sẽ triển khai một hàm Lambda tốn nhiều tài nguyên tính toán được viết bằng Python 3.9. Hàm này xác định số lượng số nguyên tố trong khoảng từ 0 đến 10 triệu.</p>
+<ol>
+<li>
+<p>Mở <a href="https://us-east-1.console.aws.amazon.com/lambda/home?region=us-east-1#/begin">Bảng điều khiển Lambda</a>.</p>
+</li>
+<li>
+<p>Nhấp vào nút <strong>Create function</strong>.</p>
+</li>
+</ol>
+<p><img alt="Triển khai chức năng cơ sở" src="/images/3.Graviton2/07_BaseFunction.png"></p>
+<ol start="3">
+<li>Tạo hàm mới với các giá trị sau và sau đó nhấp vào nút <strong>Create function</strong>:</li>
+</ol>
+<ul>
+<li>
+<p><strong>Author from scratch</strong>: đã chọn</p>
+</li>
+<li>
+<p><strong>Function name</strong>: lambda-base-function</p>
+</li>
+<li>
+<p><strong>Runtime</strong>: Python 3.9</p>
+</li>
+<li>
+<p><strong>Architecture</strong>: x86_64</p>
+</li>
+</ul>
+<p><img alt="Triển khai chức năng cơ sở" src="/images/3.Graviton2/08_BaseFunction.png"></p>
+<ol start="4">
+<li>Dán đoạn mã Python sau vào trình soạn thảo mã nguồn. Dành một chút thời gian để xem xét mã. Lưu ý rằng bạn có thể làm cho hàm tốn nhiều hoặc ít tài nguyên tính toán hơn bằng cách sửa đổi giá trị <strong>N</strong> trên dòng 23.</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> json
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> math
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> platform
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> timeit
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">primes_up_to</span>(n):
+</span></span><span style="display:flex;"><span>    primes <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">2</span>, n<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>):
+</span></span><span style="display:flex;"><span>        is_prime <span style="color:#f92672">=</span> <span style="color:#66d9ef">True</span>
+</span></span><span style="display:flex;"><span>        sqrt_i <span style="color:#f92672">=</span> math<span style="color:#f92672">.</span>isqrt(i)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> p <span style="color:#f92672">in</span> primes:
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> p <span style="color:#f92672">&gt;</span> sqrt_i:
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">break</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> i <span style="color:#f92672">%</span> p <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>:
+</span></span><span style="display:flex;"><span>                is_prime <span style="color:#f92672">=</span> <span style="color:#66d9ef">False</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">break</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> is_prime:
+</span></span><span style="display:flex;"><span>            primes<span style="color:#f92672">.</span>append(i)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> primes
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">lambda_handler</span>(event, context):
+</span></span><span style="display:flex;"><span>    start_time <span style="color:#f92672">=</span> timeit<span style="color:#f92672">.</span>default_timer()
+</span></span><span style="display:flex;"><span>    N <span style="color:#f92672">=</span> <span style="color:#ae81ff">1000000</span>
+</span></span><span style="display:flex;"><span>    primes <span style="color:#f92672">=</span> primes_up_to(N)
+</span></span><span style="display:flex;"><span>    stop_time <span style="color:#f92672">=</span> timeit<span style="color:#f92672">.</span>default_timer()
+</span></span><span style="display:flex;"><span>    elapsed_time <span style="color:#f92672">=</span> stop_time <span style="color:#f92672">-</span> start_time
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    response <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;machine&#39;</span>: platform<span style="color:#f92672">.</span>machine(),
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;elapsed&#39;</span>: elapsed_time,
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;message&#39;</span>: <span style="color:#e6db74">&#39;There are </span><span style="color:#e6db74">{}</span><span style="color:#e6db74"> prime numbers &lt;= </span><span style="color:#e6db74">{}</span><span style="color:#e6db74">&#39;</span><span style="color:#f92672">.</span>format(len(primes), N)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;statusCode&#39;</span>: <span style="color:#ae81ff">200</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;body&#39;</span>: json<span style="color:#f92672">.</span>dumps(response)
+</span></span><span style="display:flex;"><span>    }
+</span></span></code></pre></div><p><img alt="Triển khai chức năng cơ sở" src="/images/3.Graviton2/09_BaseFunction.png"></p>
+<ol start="5">
+<li>Điều hướng đến tab <strong>Configuration</strong> và tab phụ <strong>General configuration</strong> để cập nhật thời gian chờ của hàm bằng cách nhấp vào nút <strong>Edit</strong>. Cập nhật giá trị <strong>Timeout</strong> trên trang Edit basic settings thành 3 phút và nhấp vào <strong>Save</strong>.</li>
+</ol>
+<p><img alt="Triển khai chức năng cơ sở" src="/images/3.Graviton2/10_BaseFunction.png"></p>
+<p><img alt="Triển khai chức năng cơ sở" src="/images/3.Graviton2/11_BaseFunction.png"></p>
+<ol start="6">
+<li>Tạo một bài kiểm tra cho hàm mới bằng cách nhấp vào nút <strong>test</strong> trên màn hình mã nguồn. Trên màn hình <strong>Configure test event</strong>, đặt tên cho bài kiểm tra như test1 và nhấp vào <strong>Save</strong>.</li>
+</ol>
+<p><img alt="Triển khai chức năng cơ sở" src="/images/3.Graviton2/12_BaseFunction.png"></p>
+<p><img alt="Triển khai chức năng cơ sở" src="/images/3.Graviton2/13_BaseFunction.png"></p>
+<ol start="7">
+<li>Bây giờ nhấp vào nút <strong>Test</strong> và quan sát mã trạng thái 200.</li>
+</ol>
+<p><img alt="Triển khai chức năng cơ sở" src="/images/3.Graviton2/14_BaseFunction.png"></p>
+<h4 id="thu-thập-số-liệu-từ-công-cụ-điều-chỉnh-lambda-power">Thu thập số liệu từ Công cụ điều chỉnh Lambda Power</h4>
+<ol>
+<li>Sao chép <strong>Function ARN</strong> và lưu vào trình soạn thảo văn bản hoặc không gian làm việc tạm thời. Bạn sẽ cần giá trị này sau.</li>
+</ol>
+<p><img alt="Triển khai chức năng cơ sở" src="/images/3.Graviton2/15_BaseFunction.png"></p>
+<blockquote>
+<p><strong>Lưu ý</strong>: Để tab hàm Lambda này mở trong trình duyệt của bạn khi bạn tiếp tục.</p>
+</blockquote>
+<ol start="2">
+<li>
+<p>Mở một tab trình duyệt mới và điều hướng đến <a href="https://us-east-1.console.aws.amazon.com/states/home?region=us-east-1#/homepage">bảng điều khiển AWS Step Functions</a>.</p>
+</li>
+<li>
+<p>Mở Máy trạng thái Power Tuning bằng cách nhấp vào máy trạng thái bạn đã triển khai trong phần trước.</p>
+</li>
+</ol>
+<p><img alt="Triển khai chức năng cơ sở" src="/images/3.Graviton2/16_BaseFunction.png"></p>
+<ol start="4">
+<li>Nhấp vào nút <strong>Start Execution</strong> để bắt đầu phân tích hàm bạn đã tạo trước đó.</li>
+</ol>
+<p><img alt="Triển khai chức năng cơ sở" src="/images/3.Graviton2/17_BaseFunction.png"></p>
+<ol start="5">
+<li>Dán JSON sau vào trường <strong>Execution input</strong>. Hãy cẩn thận cập nhật <strong>Lambda ARN</strong> bằng giá trị bạn đã lưu trong không gian làm việc tạm thời từ bước 1. Nhấp vào <strong>Start execution</strong>.</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;lambdaARN&#34;</span>: <span style="color:#e6db74">&#34;YOUR LAMBDA ARN HERE&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;powerValues&#34;</span>: [<span style="color:#ae81ff">128</span>, <span style="color:#ae81ff">256</span>, <span style="color:#ae81ff">512</span>, <span style="color:#ae81ff">1024</span>, <span style="color:#ae81ff">2048</span>, <span style="color:#ae81ff">3008</span>],
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;num&#34;</span>: <span style="color:#ae81ff">10</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;payload&#34;</span>: <span style="color:#e6db74">&#34;{}&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;parallelInvocation&#34;</span>: <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;strategy&#34;</span>: <span style="color:#e6db74">&#34;cost&#34;</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><img alt="Triển khai chức năng cơ sở" src="/images/3.Graviton2/18_BaseFunction.png"></p>
+<ol start="6">
+<li>Theo dõi trình kiểm tra đồ thị khi Công cụ điều chỉnh Power thực hiện phân tích của nó. Đợi cho đến khi việc phân tích hàm của bạn hoàn tất, hiển thị Succeeded trong trường Execution Status.</li>
+</ol>
+<p><img alt="Triển khai chức năng cơ sở" src="/images/3.Graviton2/19_BaseFunction.png"></p>
+<ol start="7">
+<li>Điều hướng đến tab <strong>Execution output</strong> để sao chép URL <strong>visualization</strong>.</li>
+</ol>
+<p><img alt="Triển khai chức năng cơ sở" src="/images/3.Graviton2/20_BaseFunction.png"></p>
+<ol start="8">
+<li><strong>Lưu URL này vào trình soạn thảo văn bản tạm thời của bạn</strong> và sau đó dán URL vào một tab trình duyệt mới để xem kết quả được trực quan hóa.</li>
+</ol>
+<p><img alt="Triển khai chức năng cơ sở" src="/images/3.Graviton2/21_BaseFunction.png"></p>
+
+
+
+
+
+<footer class=" footline" >
+	
+</footer>
+
+        
+        </div> 
+        
+
+      </div>
+
+    <div id="navigation">
+        
+        
+        
+        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+            
+        
+        
+        
+
+
+	 
+	 
+		
+			<a class="nav nav-prev" href="/vi/3-graviton2/3.1-deploythelambdapowertuningtool/" title="Triển khai Công cụ điều chỉnh Lambda Power"> <i class="fa fa-chevron-left"></i></a>
+		
+		
+			<a class="nav nav-next" href="/vi/3-graviton2/3.3-deploythegraviton2function/" title="Triển khai Hàm Graviton2" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+		
+	
+    </div>
+
+    </section>
+    
+    <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
+      <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
+    </div>
+    <script src="/js/clipboard.min.js?1726970090"></script>
+    <script src="/js/perfect-scrollbar.min.js?1726970090"></script>
+    <script src="/js/perfect-scrollbar.jquery.min.js?1726970090"></script>
+    <script src="/js/jquery.sticky.js?1726970090"></script>
+    <script src="/js/featherlight.min.js?1726970090"></script>
+    <script src="/js/highlight.pack.js?1726970090"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script src="/js/modernizr.custom-3.6.0.js?1726970090"></script>
+    <script src="/js/learn.js?1726970090"></script>
+    <script src="/js/hugo-learn.js?1726970090"></script>
+
+    <link href="/mermaid/mermaid.css?1726970090" rel="stylesheet" />
+    <script src="/mermaid/mermaid.js?1726970090"></script>
+    <script>
+        mermaid.initialize({ startOnLoad: true });
+    </script>
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-158079754-2', 'auto');
+  ga('send', 'pageview');
+
+</script>
+  </body>
+</html>
